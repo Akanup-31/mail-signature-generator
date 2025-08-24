@@ -1,0 +1,472 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Générateur de Signature Email - Style Akanup</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #ff6c73 0%, #ff9a9e 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 20px;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+            overflow: hidden;
+        }
+        
+        .header {
+            background: linear-gradient(135deg, #121440 0%, #1e2561 100%);
+            color: white;
+            padding: 30px;
+            text-align: center;
+        }
+        
+        .header h1 {
+            font-size: 2em;
+            margin-bottom: 10px;
+        }
+        
+        .header p {
+            opacity: 0.9;
+        }
+        
+        .main-content {
+            display: flex;
+            flex-wrap: wrap;
+        }
+        
+        .form-section {
+            flex: 1;
+            min-width: 350px;
+            padding: 30px;
+            background: #f8f9fa;
+        }
+        
+        .preview-section {
+            flex: 1;
+            min-width: 350px;
+            padding: 30px;
+        }
+        
+        .form-group {
+            margin-bottom: 20px;
+        }
+        
+        .form-group label {
+            display: block;
+            margin-bottom: 5px;
+            color: #121440;
+            font-weight: 600;
+            font-size: 14px;
+        }
+        
+        .form-group input {
+            width: 100%;
+            padding: 10px 15px;
+            border: 2px solid #e0e0e0;
+            border-radius: 8px;
+            font-size: 14px;
+            transition: all 0.3s;
+        }
+        
+        .form-group input:focus {
+            outline: none;
+            border-color: #ff6c73;
+            box-shadow: 0 0 0 3px rgba(255, 108, 115, 0.1);
+        }
+        
+        .form-group small {
+            display: block;
+            margin-top: 5px;
+            color: #666;
+            font-size: 12px;
+        }
+        
+        .btn {
+            background: linear-gradient(135deg, #ff6c73 0%, #ff9a9e 100%);
+            color: white;
+            padding: 12px 30px;
+            border: none;
+            border-radius: 8px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+            width: 100%;
+            margin-top: 10px;
+        }
+        
+        .btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 20px rgba(255, 108, 115, 0.4);
+        }
+        
+        .btn-secondary {
+            background: linear-gradient(135deg, #121440 0%, #1e2561 100%);
+        }
+        
+        .btn-secondary:hover {
+            box-shadow: 0 5px 20px rgba(18, 20, 64, 0.4);
+        }
+        
+        .preview-box {
+            background: white;
+            border: 2px solid #e0e0e0;
+            border-radius: 10px;
+            padding: 20px;
+            margin-bottom: 20px;
+            min-height: 300px;
+            overflow-x: auto;
+        }
+        
+        .code-box {
+            background: #f4f4f4;
+            border: 2px solid #e0e0e0;
+            border-radius: 10px;
+            padding: 15px;
+            margin-top: 20px;
+            max-height: 300px;
+            overflow-y: auto;
+            display: none;
+        }
+        
+        .code-box pre {
+            margin: 0;
+            white-space: pre-wrap;
+            word-wrap: break-word;
+            font-size: 12px;
+            line-height: 1.5;
+        }
+        
+        .section-title {
+            color: #121440;
+            font-size: 1.5em;
+            margin-bottom: 20px;
+            padding-bottom: 10px;
+            border-bottom: 2px solid #e0e0e0;
+        }
+        
+        .alert {
+            background: #d4edda;
+            border: 1px solid #c3e6cb;
+            color: #155724;
+            padding: 12px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+            display: none;
+        }
+        
+        .alert.show {
+            display: block;
+            animation: slideIn 0.3s ease;
+        }
+        
+        @keyframes slideIn {
+            from {
+                opacity: 0;
+                transform: translateY(-10px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        
+        @media (max-width: 768px) {
+            .main-content {
+                flex-direction: column;
+            }
+            
+            .form-section, .preview-section {
+                min-width: 100%;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>✉️ Générateur de Signature Email Professionnel</h1>
+            <p>Créez votre signature style corporate en quelques clics</p>
+        </div>
+        
+        <div class="main-content">
+            <div class="form-section">
+                <h2 class="section-title">📝 Vos informations</h2>
+                
+                <form id="signatureForm">
+                    <div class="form-group">
+                        <label for="fullName">Nom complet *</label>
+                        <input type="text" id="fullName" placeholder="Ex: Damien Borieu" required>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="jobTitle">Titre / Fonction *</label>
+                        <input type="text" id="jobTitle" placeholder="Ex: Webmarketer" required>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="company">Description entreprise</label>
+                        <input type="text" id="company" placeholder="Ex: Centre de formation Management Qualité CSE">
+                        <small>Laissez vide si non nécessaire</small>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="email">Email professionnel *</label>
+                        <input type="email" id="email" placeholder="Ex: damien.borieu@akanup.com" required>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="phone">Téléphone *</label>
+                        <input type="tel" id="phone" placeholder="Ex: +33 5 82 95 97 73" required>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="website">Site web *</label>
+                        <input type="text" id="website" placeholder="Ex: akanup.com" required>
+                        <small>Sans https://www</small>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="reviewsLink">Lien vers les avis Google</label>
+                        <input type="url" id="reviewsLink" placeholder="Ex: https://maps.google.com/...">
+                        <small>Optionnel - Lien Google Maps de votre entreprise</small>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="profilePhoto">URL de la photo de profil *</label>
+                        <input type="url" id="profilePhoto" placeholder="Ex: https://exemple.com/photo.png" required>
+                        <small>Photo carrée recommandée (130x130px)</small>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="borderColor">Couleur de la barre verticale</label>
+                        <input type="color" id="borderColor" value="#ff6c73">
+                        <small>Couleur de séparation</small>
+                    </div>
+                    
+                    <button type="submit" class="btn">✨ Générer la signature</button>
+                    <button type="button" class="btn btn-secondary" onclick="fillExample()">📋 Remplir avec exemple</button>
+                </form>
+            </div>
+            
+            <div class="preview-section">
+                <h2 class="section-title">👁️ Aperçu de votre signature</h2>
+                
+                <div class="alert" id="successAlert">
+                    ✅ Signature générée avec succès ! Vous pouvez maintenant la copier.
+                </div>
+                
+                <div class="preview-box" id="signaturePreview">
+                    <p style="color: #999; text-align: center; margin-top: 50px;">
+                        Remplissez le formulaire et cliquez sur "Générer la signature" pour voir l'aperçu
+                    </p>
+                </div>
+                
+                <button class="btn" onclick="copySignature()" style="display: none;" id="copyBtn">
+                    📋 Copier le code HTML
+                </button>
+                
+                <button class="btn btn-secondary" onclick="toggleCode()" style="display: none;" id="toggleCodeBtn">
+                    👁️ Voir/Masquer le code HTML
+                </button>
+                
+                <div class="code-box" id="codeBox">
+                    <pre id="signatureCode"></pre>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <script>
+        let generatedSignature = '';
+        
+        document.getElementById('signatureForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            generateSignature();
+        });
+        
+        function generateSignature() {
+            // Récupération des valeurs
+            const fullName = document.getElementById('fullName').value;
+            const jobTitle = document.getElementById('jobTitle').value;
+            const company = document.getElementById('company').value;
+            const email = document.getElementById('email').value;
+            const phone = document.getElementById('phone').value;
+            const website = document.getElementById('website').value;
+            const reviewsLink = document.getElementById('reviewsLink').value;
+            const profilePhoto = document.getElementById('profilePhoto').value;
+            const borderColor = document.getElementById('borderColor').value;
+            
+            // Construction du HTML de la signature
+            let signatureHTML = `<table cellpadding="0" cellspacing="0" border="0">
+    <tbody>
+    <tr>
+    <td style="padding:0px 1px 0px 0px">
+    <table cellpadding="0" cellspacing="0" border="0" style="border-collapse:separate">
+    <tbody>
+    <tr>
+    <td align="center" style="padding:0px 18px 0px 0px;vertical-align:top;position:relative">
+    <table cellpadding="0" cellspacing="0" border="0">
+    <tbody>
+    <tr>
+    <td style="padding:0px 1px 0px 0px;position:relative">
+    <!-- Photo de profil -->
+    <p style="margin:1px"><img src="${profilePhoto}" alt="${fullName}" width="130" height="130" style="display:block;border:0px;max-width:130px;border-radius:50%;object-fit:cover"/></p>
+    </td>
+    </tr>
+    </tbody>
+    </table>
+    </td>
+    <td style="padding:1px 0px 0px;border-right:3px solid ${borderColor}"><br/></td>
+    <td style="padding:0px 1px 0px 18px;vertical-align:top">
+    <table cellpadding="0" cellspacing="0" border="0">
+    <tbody>
+    <tr>
+    <td style="padding:0px 1px 10px 0px;font-family:Arial,sans-serif;font-size:13px;line-height:17px;white-space:nowrap">
+    <!-- Informations principales -->
+    <p style="font-family:Arial,sans-serif;font-size:13px;line-height:17px;font-weight:700;color:rgb(18,20,64);white-space:nowrap;margin:1px">${fullName}</p>
+    <p style="font-family:Arial,sans-serif;font-size:13px;line-height:17px;white-space:nowrap;color:rgb(136,136,136);margin:1px">${jobTitle}</p>`;
+            
+            if (company) {
+                signatureHTML += `
+    <p style="font-family:Arial,sans-serif;font-size:13px;line-height:17px;white-space:nowrap;color:rgb(136,136,136);margin:1px">${company}</p>`;
+            }
+            
+            signatureHTML += `
+    </td>
+    </tr>
+    <tr>
+    <td style="padding:0px 1px 0px 0px">
+    <table cellpadding="0" cellspacing="0" border="0">
+    <tbody>
+    <tr>
+    <td valign="middle" style="padding:1px 5px 1px 0px;vertical-align:middle">
+    <!-- Icône email -->
+    <p style="margin:1px"><img src="https://www.akanup.fr/wp-content/uploads/2024/11/id28-sp1o3ustzh.png" alt="" width="17" height="14" style="display:block;border:0px;width:17px;height:14px"/> </p>
+    </td>
+    <td style="line-height:17px;padding:1px 0px;vertical-align:middle">
+    <p style="margin:1px"><a href="mailto:${email}" style="font-family:Arial,sans-serif;font-size:13px;line-height:17px;white-space:nowrap;color:rgb(136,136,136);text-decoration:none!important" rel="nofollow"><span style="font-family:Arial,sans-serif;font-size:13px;line-height:17px;white-space:nowrap;color:rgb(136,136,136);text-decoration:none!important">${email}</span></a></p>
+    </td>
+    </tr>
+    <tr>
+    <td valign="middle" style="padding:1px 5px 1px 0px;vertical-align:middle">
+    <!-- Icône téléphone -->
+    <p style="margin:1px"><img src="https://www.akanup.fr/wp-content/uploads/2024/11/icone-telephone.png" alt="" width="18" height="18" style="display:block;border:0px;width:18px;height:18px"/></p>
+    </td>
+    <td style="line-height:17px;padding:1px 0px;vertical-align:middle">
+    <p style="margin:1px"><a style="font-family:Arial,sans-serif;font-size:13px;line-height:17px;white-space:nowrap;color:rgb(136,136,136);text-decoration:none!important"><span style="font-family:Arial,sans-serif;font-size:13px;line-height:17px;white-space:nowrap;color:rgb(136,136,136);text-decoration:none!important">${phone}</span></a></p>
+    </td>
+    </tr>
+    <tr>
+    <td valign="middle" style="padding:1px 5px 1px 0px;vertical-align:middle">
+    <!-- Icône web -->
+    <p style="margin:1px"><img src="https://www.akanup.fr/wp-content/uploads/2024/11/icone-web.png" alt="" width="18" height="18" style="display:block;border:0px;width:18px;height:18px"/></p>
+    </td>
+    <td style="line-height:17px;padding:1px 0px;vertical-align:middle">
+    <p style="margin:1px"><a href="https://${website}" style="font-family:Arial,sans-serif;font-size:13px;line-height:17px;white-space:nowrap;color:${borderColor};font-weight:700;text-decoration:none!important" rel="nofollow"><span style="font-family:Arial,sans-serif;font-size:13px;line-height:17px;white-space:nowrap; color:${borderColor};font-weight:700;text-decoration:none!important">${website}</span></a>`;
+            
+            if (reviewsLink) {
+                signatureHTML += ` - <a href="${reviewsLink}" style="font-family:Arial,sans-serif;font-size:13px;line-height:17px;color:rgb(136,136,136);text-decoration:underline!important" rel="nofollow">Voir nos avis</a>`;
+            }
+            
+            signatureHTML += `</p>
+    </td>
+    </tr>
+    </tbody>
+    </table>
+    </td>
+    </tr>
+    </tbody>
+    </table>
+    </td>
+    </tr>
+    </tbody>
+    </table>
+    </td>
+    </tr>
+    </tbody>
+</table>`;
+            
+            // Affichage de la signature
+            document.getElementById('signaturePreview').innerHTML = signatureHTML;
+            document.getElementById('signatureCode').textContent = signatureHTML;
+            
+            // Affichage des boutons et de l'alerte
+            document.getElementById('copyBtn').style.display = 'block';
+            document.getElementById('toggleCodeBtn').style.display = 'block';
+            document.getElementById('successAlert').classList.add('show');
+            
+            // Masquer l'alerte après 3 secondes
+            setTimeout(() => {
+                document.getElementById('successAlert').classList.remove('show');
+            }, 3000);
+            
+            // Stocker la signature générée
+            generatedSignature = signatureHTML;
+        }
+        
+        function copySignature() {
+            // Créer un élément temporaire pour copier le HTML
+            const tempElement = document.createElement('textarea');
+            tempElement.value = generatedSignature;
+            tempElement.style.position = 'absolute';
+            tempElement.style.left = '-9999px';
+            document.body.appendChild(tempElement);
+            tempElement.select();
+            document.execCommand('copy');
+            document.body.removeChild(tempElement);
+            
+            // Modifier temporairement le texte du bouton
+            const copyBtn = document.getElementById('copyBtn');
+            const originalText = copyBtn.innerHTML;
+            copyBtn.innerHTML = '✅ Code copié !';
+            copyBtn.style.background = 'linear-gradient(135deg, #28a745 0%, #20c997 100%)';
+            
+            setTimeout(() => {
+                copyBtn.innerHTML = originalText;
+                copyBtn.style.background = '';
+            }, 2000);
+        }
+        
+        function toggleCode() {
+            const codeBox = document.getElementById('codeBox');
+            const toggleBtn = document.getElementById('toggleCodeBtn');
+            
+            if (codeBox.style.display === 'none' || codeBox.style.display === '') {
+                codeBox.style.display = 'block';
+                toggleBtn.innerHTML = '🙈 Masquer le code HTML';
+            } else {
+                codeBox.style.display = 'none';
+                toggleBtn.innerHTML = '👁️ Voir le code HTML';
+            }
+        }
+        
+        function fillExample() {
+            // Remplir avec l'exemple d'Akanup
+            document.getElementById('fullName').value = 'Damien Borieu';
+            document.getElementById('jobTitle').value = 'Webmarketer';
+            document.getElementById('company').value = 'Centre de formation Management Qualité CSE';
+            document.getElementById('email').value = 'damien.borieu@akanup.com';
+            document.getElementById('phone').value = '+33 5 82 95 97 73';
+            document.getElementById('website').value = 'akanup.com';
+            document.getElementById('reviewsLink').value = 'https://www.google.com/maps/place/Akanup+-+Formations+%26+coaching+Management,+CSE,+Qualit%C3%A9+-+Transformez+vos+pratiques+en+entreprise/@43.6274192,1.4344392,17z/data=!3m1!4b1!4m6!3m5!1s0x2e20076de57b59e5:0xb6520f71f74d4b31!8m2!3d43.6274192!4d1.4344392!16s%2Fg%2F11r_kn3h4g?entry=ttu';
+            document.getElementById('profilePhoto').value = 'https://www.akanup.fr/wp-content/uploads/2024/11/Damien-2.png';
+            document.getElementById('borderColor').value = '#ff6c73';
+        }
+    </script>
+</body>
+</html>
